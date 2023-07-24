@@ -1,0 +1,66 @@
+.text {
+  color: white;
+  border-width: -5px;
+  border-color: blue;
+  border-style: solid;
+}
+
+.image {
+  aspect-ratio: 3/2;
+  width: 15%;
+  object-fit: contain;
+  padding-right: 10px;
+}
+
+.Card {
+  display: block;
+  width: 60%;
+  margin-left: auto;
+  margin-right: auto;
+}
+.ProjList {
+  list-style-type: none;
+}
+.ProjList li:before {
+  content: "\2014";
+  position: absolute;
+  margin-left: -30px;
+}
+
+.Contacts {
+  color: white;
+  text-align: center;
+  padding-bottom: 5%;
+  padding-top: 2%;
+}
+
+.Contacts a {
+  color: hotpink;
+  text-align: center;
+  font-size: 150%;
+}
+
+button#offCanvasButton {
+  visibility: visible;
+  position: fixed;
+  font-size: 50px;
+  transform: translate(-5px, 50vh);
+  background: transparent;
+  border: none;
+  transition: 0.2s ease-in-out 0s;
+}
+button#offCanvasButton:hover {
+  cursor: pointer;
+  transform: translate(5px, 50vh) scale(1.25);
+  color: #111;
+}
+
+@media only screen and (max-width: 690px) {
+  button#offCanvasButton {
+    visibility: hidden;
+  }
+}
+
+#accelerate {
+  will-change: transform;
+}

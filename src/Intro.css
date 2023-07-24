@@ -1,0 +1,9 @@
+.Button{
+        height: 120%;
+        display: inline-flex;
+        justify-content: center; /* center the content horizontally */
+        align-items: center; /* center the content vertically */
+        border-color: black; /* hide button border */
+        font-size: 140%;
+        font-weight: bolder;
+} 
