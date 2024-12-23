@@ -1,11 +1,16 @@
 [
   {
     "id": 0,
-    "section": "Magnite Placement (soon)",
+    "section": "Magnite Placement",
     "subtitle": "Software Engineer",
-    "content": "Soon to be Software Engineer for Magnite Ltd",
+    "content": "1 Year Experience In The Magnite Belfast Office",
     "variant": "experience",
-    "imgSrc": "magnite.jpg"
+    "imgSrc": "magnite.jpg",
+    "modalHeader": "Placement Year at Magnite",
+    "modalSubtitle": "What I've Learnt",
+    "modalContent": "I have developed a deep technical understanding of APIs, coding theory, and programming concepts, including OOP, component-based programming, and asynchronous programming. Proficient in both front-end and back-end coding, I excel at picking up new languages and adapting to diverse development environments. With experience creating, developing, and implementing login flows across multiple projects using various programming languages, I also have a solid understanding of SQL and database architecture. Additionally, I have worked professionally with Git for over a year, utilizing it for version control and collaborative development. \nMy skillset includes 6 months of hands-on experience with AWS and the SaaS platform Auth0, where I have been entrusted with admin roles and clearance. I am adept at working with MacOS, utilizing Bash Terminal for file manipulation, dependency installation, and managing JavaScript projects via NPM. These experiences have honed my ability to work effectively in professional environments, communicate within teams, and deliver high-quality, reliable solutions.",
+    "href": "https://www.magnite.com/"
+
   },
   {
     "id": 1,

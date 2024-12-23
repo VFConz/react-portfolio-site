@@ -1,9 +1,95 @@
-.Button{
-        height: 120%;
-        display: inline-flex;
-        justify-content: center; /* center the content horizontally */
-        align-items: center; /* center the content vertically */
-        border-color: black; /* hide button border */
-        font-size: 140%;
-        font-weight: bolder;
-} 
+.Button {
+  height: 120%;
+  display: inline-flex;
+  justify-content: center; /* center the content horizontally */
+  align-items: center; /* center the content vertically */
+  border-color: black; /* hide button border */
+  font-weight: bolder;
+}
+.holder {
+  position: relative; /* Establishes a relative positioning context */
+  width: 100%;
+  height: 45vh;
+  overflow: hidden; /* Prevents content from overflowing */
+  border-radius: 20px;
+
+}
+
+
+@media (max-width: 768px) {
+  .holder {
+    position: relative; /* Establishes a relative positioning context */
+    width: 100%;
+    height: 20vh;
+    overflow: hidden; /* Prevents content from overflowing */
+    }
+}
+
+.frame {
+  width: 100%;
+  height: 100%;
+  border-radius: 20px;
+}
+
+#profileImage {
+  position: absolute; /* Positions the image relative to .holder */
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); /* Centers the image */
+  max-width: 100%; /* Ensures the image doesn't exceed container width */
+  max-height: 100%; /* Ensures the image doesn't exceed container height */
+  width: auto; /* Maintains aspect ratio */
+  height: auto; /* Maintains aspect ratio */
+  margin: 0; /* Removes any default margins */
+  padding: 0; /* Removes any default padding */
+  border-radius: 20px;
+
+}
+
+/* Responsive container and button spacing */
+.Button {
+  font-size: 1rem;
+  padding: 0.75rem 1rem;
+}
+
+@media (max-width: 768px) {
+  .Button {
+    font-size: 0.9rem;
+    padding: 0.5rem 0.75rem;
+  }
+}
+
+#titleAnim {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  box-sizing: border-box;
+  position: absolute; /* Positions the image relative to .holder */
+  top: 30%;
+  left: 50%;
+  transform: translate(-50%, -50%); /* Centers the image */
+  text-shadow: 2px 2px 4px #000000; /* Adds a shadow to the text */
+}
+
+#titleAnim span {
+  display: inline-block;
+  font-size: calc(1rem + 2vw); /* Ensures responsive scaling based on viewport width */
+  white-space: nowrap; /* Prevents wrapping on larger screens */
+}
+
+/* Start word wrapping at 995px */
+@media (max-width: 995px) {
+  #titleAnim span {
+    white-space: normal; /* Allows wrapping of text */
+    font-size: calc(1rem + 1vw); /* Slightly adjust font size for smaller screens */
+  }
+}
+
+/* Scaling for larger screens */
+@media (min-width: 996px) {
+  #titleAnim span {
+    white-space: nowrap; /* No wrapping for larger screens */
+    font-size: calc(1.5rem + 1.5vw); /* Fixed scaling for larger screens */
+  }
+}

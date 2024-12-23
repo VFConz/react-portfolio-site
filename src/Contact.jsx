@@ -1,9 +1,11 @@
 import { Container, Row, Tabs, Tab } from "react-bootstrap";
+import "./Contact.css";
+
 export const Contact = () => {
   return (
     <Container className="mt-5">
       <Container className="text-center pt-5">
-        <p className="display-4 mt-5 fw-semibold" id="contact">
+        <p className="display-4 fw-semibold" id="contact">
           Contact Details
         </p>
       </Container>
@@ -15,22 +17,24 @@ export const Contact = () => {
 
       <Container
         fluid
+        className=""
         style={{
           display: "flex",
           justifyContent: "center",
         }}>
         <Row
-          className="py-3"
+          className="pb-3"
+          md={8}
+          sm={12}
           style={{
             display: "flex",
             justifyContent: "center",
-            columnGap: "300px",
+            width: "100%",
           }}>
           <Container className="bg-dark rounded-5">
             <Tabs
               defaultActiveKey="linkedin"
-              style={{ width: "67.2vw" }}
-              className="mb-3 bg-light rounded-5"
+              className="mt-3 mb-3 bg-light rounded-5 fw-bold"
               justify>
               <Tab className="Contacts" eventKey="linkedin" title="Linkedin">
                 <a href="https://linkedin.com/VFConz" target="/blank">
