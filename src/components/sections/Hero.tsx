@@ -16,33 +16,33 @@ const HeroScene = dynamic(
 export function Hero() {
   return (
     <div className="relative flex h-screen items-center justify-center overflow-hidden">
-      {/* 3D Particle Background */}
+      {/* 3D Geometric Background */}
       <Suspense fallback={null}>
         <HeroScene />
       </Suspense>
 
       {/* Gradient overlay for text readability */}
-      <div className="absolute inset-0 bg-gradient-to-b from-bg-primary/40 via-transparent to-bg-primary/70" />
+      <div className="absolute inset-0 bg-gradient-to-b from-bg-primary/60 via-bg-primary/20 to-bg-primary/80" />
 
       <div className="relative z-10 flex flex-col items-center gap-6 px-6 text-center sm:gap-8">
         {/* Small label above name */}
-        <span className="text-xs font-medium uppercase tracking-[0.3em] text-text-muted">
+        <span className="rounded-full border border-accent/20 bg-bg-primary/60 px-4 py-1.5 text-xs font-medium uppercase tracking-[0.3em] text-accent backdrop-blur-sm">
           Portfolio
         </span>
 
-        {/* Kinetic animated name with display font */}
+        {/* Kinetic animated name — warm cream on dark */}
         <KineticText
           text={personal.name}
           as="h1"
-          className="font-display text-5xl font-bold leading-[0.9] tracking-[-0.02em] text-navy sm:text-7xl md:text-8xl lg:text-[100px] xl:text-[120px]"
+          className="font-display text-5xl font-bold leading-[0.9] tracking-[-0.02em] text-text-primary sm:text-7xl md:text-8xl lg:text-[100px] xl:text-[120px]"
           staggerMs={35}
         />
 
-        {/* Subtitle with uppercase tracking (AVA SRG style) */}
+        {/* Subtitle — gold accent with dark drop shadow */}
         <KineticText
           text={personal.title}
           as="p"
-          className="text-sm font-medium uppercase tracking-[0.2em] text-text-secondary sm:text-base md:text-lg"
+          className="text-base font-semibold uppercase tracking-[0.2em] text-accent drop-shadow-[0_1px_3px_rgba(0,0,0,0.5)] sm:text-lg md:text-xl"
           delay={600}
           staggerMs={25}
         />
@@ -54,7 +54,7 @@ export function Hero() {
             href={personal.linkedin}
             target="_blank"
             rel="noopener noreferrer"
-            className="group relative overflow-hidden rounded-full border border-navy/20 px-7 py-3 text-sm font-medium text-navy transition-all duration-300 hover:border-accent hover:text-navy"
+            className="group relative overflow-hidden rounded-full border border-accent/30 px-7 py-3 text-sm font-medium text-text-primary transition-all duration-300 hover:border-accent hover:text-bg-primary"
             strength={0.3}
           >
             <span className="absolute inset-0 -translate-x-full bg-accent transition-transform duration-300 group-hover:translate-x-0" />
@@ -65,7 +65,7 @@ export function Hero() {
             href={personal.github}
             target="_blank"
             rel="noopener noreferrer"
-            className="group relative overflow-hidden rounded-full border border-navy/20 px-7 py-3 text-sm font-medium text-navy transition-all duration-300 hover:border-accent hover:text-navy"
+            className="group relative overflow-hidden rounded-full border border-accent/30 px-7 py-3 text-sm font-medium text-text-primary transition-all duration-300 hover:border-accent hover:text-bg-primary"
             strength={0.3}
           >
             <span className="absolute inset-0 -translate-x-full bg-accent transition-transform duration-300 group-hover:translate-x-0" />
@@ -77,7 +77,7 @@ export function Hero() {
         <div className="absolute bottom-10 left-1/2 -translate-x-1/2">
           <Link
             href="#about"
-            className="flex flex-col items-center gap-2 text-text-muted transition-colors hover:text-text-secondary"
+            className="flex flex-col items-center gap-2 text-text-muted transition-colors hover:text-accent"
           >
             <span className="text-[10px] uppercase tracking-[0.3em]">Scroll</span>
             <span className="relative h-12 w-[1px] overflow-hidden bg-border">

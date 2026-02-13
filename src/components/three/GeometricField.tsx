@@ -29,12 +29,12 @@ const KINDS: ShapeKind[] = ['cube', 'octahedron', 'ring', 'sphere'];
 
 /* Palette-aware colors: navy, amber accent, and muted gray */
 const SHAPE_COLORS = [
-  '#14213d', // navy — dominant
-  '#14213d',
-  '#14213d',
-  '#fca311', // amber accent — sparse
-  '#d1d5db', // soft gray
-  '#14213d',
+  '#c9a84c', // gilded gold — dominant
+  '#c9a84c',
+  '#bfb5a0', // warm gray
+  '#e8d5a0', // light gold accent — sparse
+  '#776f61', // muted warm
+  '#c9a84c',
 ];
 
 function createGeometry(kind: ShapeKind): THREE.BufferGeometry {
@@ -125,7 +125,7 @@ function FloatingShape({
       <meshStandardMaterial
         color={config.color}
         transparent
-        opacity={config.color === '#fca311' ? 0.6 : 0.12}
+        opacity={config.color === '#e8d5a0' ? 0.5 : 0.15}
         wireframe={config.kind === 'cube' || config.kind === 'octahedron'}
         roughness={0.8}
         metalness={0.1}

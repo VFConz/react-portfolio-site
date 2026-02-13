@@ -79,8 +79,10 @@ export function RevealOnScroll({
     });
 
     return () => {
+      // Only kill this instance's ScrollTrigger, not all of them
+      const st = tl.scrollTrigger;
+      if (st) st.kill();
       tl.kill();
-      ScrollTrigger.getAll().forEach((t) => t.kill());
     };
   }, [direction, delay, stagger, duration, distance]);
 

@@ -12,7 +12,7 @@ function ExperienceCard({ item, index }: { item: ExperienceItem; index: number }
 
   return (
     <RevealOnScroll delay={index * 0.1}>
-      <div className="relative pl-8 pb-12 last:pb-0">
+      <div className="group relative pl-8 pb-12 last:pb-0">
         {/* Timeline line */}
         <div className="absolute top-0 left-0 h-full w-px bg-border" />
         {/* Timeline dot */}
@@ -53,6 +53,7 @@ function ExperienceCard({ item, index }: { item: ExperienceItem; index: number }
           {/* Expandable detail */}
           <button
             onClick={() => setExpanded(!expanded)}
+            aria-expanded={expanded}
             className="mt-4 text-sm font-medium text-accent transition-colors hover:text-accent-hover"
           >
             {expanded ? 'Show Less' : 'Read More'}

@@ -1,2 +1,2 @@
 export { HeroScene } from './HeroScene';
-export { ParticleField } from './ParticleField';
+export { GeometricField } from './GeometricField';

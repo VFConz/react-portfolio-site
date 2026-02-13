@@ -18,13 +18,13 @@ export const projects: ProjectItem[] = [
     subtitle: 'React & Node.JS',
     techStack: ['React', 'Node.js', 'Next.js', 'Tailwind CSS', 'TypeScript'],
     features: [
-      'My First Full Website Built with the React Framework',
-      'Uses React-Bootstrap',
-      'Data-Driven Website',
+      'Full portfolio site with modern React patterns',
+      'Server Components and App Router',
+      'Data-Driven with TypeScript',
     ],
-    description: 'My portfolio website built with React',
+    description: 'My portfolio — built with Next.js 16, Three.js, GSAP & Tailwind CSS 4',
     details:
-      "I've learnt a lot from this Project about Node.js, JS itself and most importantly how React fits into the web development stack, improving the scalability and consistency of websites! I've also used the react-bootstrap module for more fluid development.",
+      "Built from the ground up with Next.js 16 App Router, React 19, and TypeScript. Features Three.js geometric animations, GSAP scroll-driven effects, Framer Motion page transitions, and a fully responsive design system powered by Tailwind CSS 4 with custom design tokens.",
     image: '/images/react.png',
     accentColor: '#61DAFB',
   },

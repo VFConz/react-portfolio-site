@@ -7,158 +7,146 @@ import { projects, type ProjectItem } from '@/data/projects';
 import { RevealOnScroll } from '@/components/animations/RevealOnScroll';
 import { ScrollParallax } from '@/components/animations/ScrollParallax';
 
+/* ─── Single project card ─── */
 function ProjectCard({
   project,
   index,
-  featured = false,
+  reversed = false,
 }: {
   project: ProjectItem;
   index: number;
-  featured?: boolean;
+  reversed?: boolean;
 }) {
-  const [expanded, setExpanded] = useState(false);
+  const [hovered, setHovered] = useState(false);
+  const num = String(index + 1).padStart(2, '0');
 
   return (
-    <RevealOnScroll delay={index * 0.1}>
-      {/* Card with lift + shadow + border glow on hover — NO 3D tilt */}
+    <RevealOnScroll delay={index * 0.08}>
       <div
-        className={`group rounded-2xl border border-border bg-bg-secondary transition-all duration-300 hover:border-accent/60 hover:-translate-y-1.5 hover:shadow-xl hover:shadow-accent/10 ${
-          featured ? 'md:col-span-2' : ''
+        className={`group grid items-center gap-0 overflow-hidden rounded-2xl border border-border bg-bg-secondary transition-all duration-500 hover:border-accent/40 hover:shadow-2xl hover:shadow-accent/8 md:grid-cols-2 ${
+          reversed ? 'md:direction-rtl' : ''
         }`}
+        onMouseEnter={() => setHovered(true)}
+        onMouseLeave={() => setHovered(false)}
       >
-        {/* Project image with device-style frame */}
+        {/* ── Image panel ── */}
         <div
-          className={`relative flex items-center justify-center overflow-hidden rounded-t-2xl ${
-            featured ? 'h-64 sm:h-72 md:h-80' : 'h-52 sm:h-56'
+          className={`relative overflow-hidden ${
+            reversed ? 'md:order-2 md:direction-ltr' : ''
           }`}
-          style={{ backgroundColor: `${project.accentColor}10` }}
         >
-          {/* Subtle gradient overlay */}
-          <div className="absolute inset-0 bg-gradient-to-t from-bg-secondary/60 to-transparent" />
-
-          {/* CSS-only laptop frame */}
+          {/* Accent stripe along the edge */}
           <div
-            className={`relative transition-transform duration-500 group-hover:scale-[1.03] ${
-              featured ? 'w-[55%] max-w-[400px]' : 'w-[70%] max-w-[280px]'
+            className={`absolute top-0 z-10 h-full w-1 ${
+              reversed ? 'left-0' : 'right-0'
             }`}
-          >
-            {/* Screen bezel */}
-            <div className="rounded-t-lg border-[4px] border-bg-elevated bg-bg-elevated shadow-lg">
-              <div className="relative aspect-[16/10] w-full overflow-hidden rounded-sm bg-black">
-                <Image
-                  src={project.image}
-                  alt={project.title}
-                  fill
-                  className="object-cover object-center"
-                  sizes={featured ? '(max-width: 768px) 80vw, 400px' : '(max-width: 768px) 60vw, 280px'}
-                />
-              </div>
-            </div>
-            {/* Bottom bar */}
-            <div className="mx-auto h-[8px] w-[110%] max-w-full rounded-b-lg bg-gradient-to-b from-border to-bg-elevated" />
-            <div className="mx-auto h-[3px] w-[35%] rounded-b bg-border/50" />
+            style={{ backgroundColor: project.accentColor }}
+          />
+
+          {/* Image container — large, edge-to-edge */}
+          <div className="relative aspect-[16/10] w-full overflow-hidden bg-bg-elevated">
+            <Image
+              src={project.image}
+              alt={project.title}
+              fill
+              className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+              sizes="(max-width: 768px) 100vw, 50vw"
+            />
+
+            {/* Hover overlay with description */}
+            <AnimatePresence>
+              {hovered && (
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.3 }}
+                  className="absolute inset-0 flex items-end bg-gradient-to-t from-black/70 via-black/30 to-transparent p-6"
+                >
+                  <p className="text-sm leading-relaxed text-white/90">
+                    {project.description}
+                  </p>
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
         </div>
 
-        <div className="p-6">
-          <div className="flex items-start justify-between gap-2">
-            <div>
-              <h3
-                className={`font-semibold text-text-primary ${
-                  featured ? 'font-display text-xl sm:text-2xl' : 'text-lg'
-                }`}
-              >
-                {project.title}
-              </h3>
-              <p className="mt-1 text-sm text-text-muted">{project.subtitle}</p>
-            </div>
-            {project.href && (
-              <a
-                href={project.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="shrink-0 rounded-full border border-border p-2 transition-all duration-300 hover:border-accent hover:text-accent hover:scale-110"
-                aria-label={`View ${project.title} on GitHub`}
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
-                  <polyline points="15 3 21 3 21 9" />
-                  <line x1="10" y1="14" x2="21" y2="3" />
-                </svg>
-              </a>
-            )}
+        {/* ── Content panel ── */}
+        <div
+          className={`flex flex-col justify-center p-8 sm:p-10 md:p-12 ${
+            reversed ? 'md:order-1 md:direction-ltr' : ''
+          }`}
+        >
+          {/* Number + category */}
+          <div className="mb-4 flex items-center gap-3">
+            <span
+              className="font-display text-3xl font-bold leading-none sm:text-4xl"
+              style={{ color: project.accentColor }}
+            >
+              {num}
+            </span>
+            <span className="text-[11px] font-medium uppercase tracking-[0.2em] text-text-muted">
+              {project.subtitle}
+            </span>
           </div>
 
-          {/* Tech tags */}
-          <div className="mt-4 flex flex-wrap gap-2">
+          {/* Title */}
+          <h3 className="font-display text-2xl font-bold text-text-primary sm:text-3xl">
+            {project.title}
+          </h3>
+
+          {/* Brief details — max 2 lines */}
+          <p className="mt-4 line-clamp-3 text-sm leading-relaxed text-text-secondary">
+            {project.details}
+          </p>
+
+          {/* Tech stack */}
+          <div className="mt-6 flex flex-wrap gap-2">
             {project.techStack.map((tech) => (
               <span
                 key={tech}
-                className="rounded-full border border-border/50 bg-bg-elevated px-3 py-1 text-xs text-text-muted transition-colors hover:text-accent"
+                className="rounded-full border border-border px-3 py-1 text-xs font-medium text-text-muted transition-colors duration-200 hover:border-accent hover:text-accent"
               >
                 {tech}
               </span>
             ))}
           </div>
 
-          {/* Features list */}
-          <ul className="mt-4 space-y-1.5">
-            {project.features.map((feature) => (
-              <li
-                key={feature}
-                className="flex items-center gap-2 text-sm text-text-secondary"
+          {/* CTA link */}
+          {project.href && (
+            <a
+              href={project.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-8 inline-flex items-center gap-2 text-sm font-semibold text-accent transition-colors hover:text-accent-hover"
+            >
+              View on GitHub
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="transition-transform duration-200 group-hover:translate-x-0.5"
               >
-                <span
-                  className="h-1 w-1 shrink-0 rounded-full"
-                  style={{ backgroundColor: project.accentColor }}
-                />
-                {feature}
-              </li>
-            ))}
-          </ul>
-
-          {/* Expandable detail view — stays flat and accessible */}
-          <button
-            onClick={() => setExpanded(!expanded)}
-            className="mt-4 text-sm font-medium text-accent transition-colors hover:text-accent-hover"
-          >
-            {expanded ? 'Show Less' : 'Read More'}
-          </button>
-
-          <AnimatePresence>
-            {expanded && (
-              <motion.div
-                initial={{ height: 0, opacity: 0 }}
-                animate={{ height: 'auto', opacity: 1 }}
-                exit={{ height: 0, opacity: 0 }}
-                transition={{ duration: 0.3, ease: 'easeInOut' }}
-                className="overflow-hidden"
-              >
-                <p className="mt-3 text-sm leading-relaxed text-text-secondary">
-                  {project.details}
-                </p>
-              </motion.div>
-            )}
-          </AnimatePresence>
+                <path d="M5 12h14" />
+                <path d="m12 5 7 7-7 7" />
+              </svg>
+            </a>
+          )}
         </div>
       </div>
     </RevealOnScroll>
   );
 }
 
+/* ─── Projects section ─── */
 export function Projects() {
-  const [firstProject, ...restProjects] = projects;
-
   return (
     <div className="mx-auto max-w-6xl px-6 py-28 lg:py-36">
       <RevealOnScroll>
@@ -172,17 +160,15 @@ export function Projects() {
         </ScrollParallax>
       </RevealOnScroll>
 
-      {/* Featured first project (full width) */}
-      {firstProject && (
-        <div className="mb-8">
-          <ProjectCard project={firstProject} index={0} featured />
-        </div>
-      )}
-
-      {/* Remaining projects in 2-col grid */}
-      <div className="grid gap-8 md:grid-cols-2">
-        {restProjects.map((project, index) => (
-          <ProjectCard key={project.id} project={project} index={index + 1} />
+      {/* Alternating left/right project cards */}
+      <div className="flex flex-col gap-10 md:gap-14">
+        {projects.map((project, index) => (
+          <ProjectCard
+            key={project.id}
+            project={project}
+            index={index}
+            reversed={index % 2 !== 0}
+          />
         ))}
       </div>
     </div>

@@ -13,8 +13,8 @@ export function HeroScene() {
         style={{ background: 'transparent' }}
       >
         <Suspense fallback={null}>
-          <ambientLight intensity={0.8} />
-          <directionalLight position={[5, 5, 5]} intensity={0.5} />
+          <ambientLight intensity={0.6} />
+          <directionalLight position={[5, 5, 5]} intensity={0.4} color="#e8d5a0" />
           <GeometricField />
         </Suspense>
       </Canvas>

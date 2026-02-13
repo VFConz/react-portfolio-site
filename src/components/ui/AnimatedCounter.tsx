@@ -62,8 +62,10 @@ export function AnimatedCounter({
     });
 
     return () => {
+      // Only kill this instance's ScrollTrigger, not all
+      const st = tween.scrollTrigger;
+      if (st) st.kill();
       tween.kill();
-      ScrollTrigger.getAll().forEach((t) => t.kill());
     };
   }, [target, duration]);
 

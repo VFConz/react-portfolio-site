@@ -7,3 +7,28 @@ export const personal = {
   github: 'https://github.com/VFConz',
   profileImage: '/images/profile.png',
 };
+
+export const skills = [
+  'React',
+  'Next.js',
+  'TypeScript',
+  'Node.js',
+  'JavaScript',
+  'Java',
+  'Kotlin',
+  'C++',
+  'AWS',
+  'SQL',
+  'Git',
+  'Tailwind CSS',
+  'HTML/CSS',
+  'Auth0',
+  'REST APIs',
+];
+
+export const stats = [
+  { label: 'Year Industry Experience', target: 1, suffix: '+' },
+  { label: 'Projects Completed', target: 6, suffix: '+' },
+  { label: 'Technologies', target: 15, suffix: '+' },
+  { label: 'Grade Average', target: 80, suffix: '%' },
+];

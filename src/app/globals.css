@@ -1,24 +1,22 @@
 @import "tailwindcss";
 
 @theme {
-  /* ── Light Theme (Default) ── Coolors Palette ──
-     #000000  Black       → text-primary
-     #14213d  Dark navy   → text-secondary, headings accent
-     #fca311  Amber       → accent (CTAs, highlights)
-     #e5e5e5  Light gray  → borders, subtle bg
-     #ffffff  White       → primary background
+  /* ── Dark Gilded Gold ──
+     Deep charcoal/near-black backgrounds
+     Warm gilded gold accent
+     Soft warm grays for text hierarchy
   */
-  --color-bg-primary: #ffffff;
-  --color-bg-secondary: #f5f5f5;
-  --color-bg-elevated: #ffffff;
-  --color-text-primary: #000000;
-  --color-text-secondary: #14213d;
-  --color-text-muted: #6b7280;
-  --color-accent: #fca311;
-  --color-accent-hover: #e69500;
-  --color-accent-subtle: #fef3c7;
-  --color-navy: #14213d;
-  --color-border: #e5e5e5;
+  --color-bg-primary: #0c0c0c;
+  --color-bg-secondary: #141414;
+  --color-bg-elevated: #1c1c1c;
+  --color-text-primary: #f0e6d3;
+  --color-text-secondary: #bfb5a0;
+  --color-text-muted: #776f61;
+  --color-accent: #c9a84c;
+  --color-accent-hover: #dbb85c;
+  --color-accent-subtle: #2a2315;
+  --color-navy: #c9a84c;
+  --color-border: #2a2520;
   --font-sans: var(--font-inter), 'Inter', ui-sans-serif, system-ui, sans-serif;
   --font-display: var(--font-space-grotesk), 'Space Grotesk', ui-sans-serif, system-ui, sans-serif;
 }
@@ -65,35 +63,37 @@ body {
 /* Selection */
 ::selection {
   background-color: var(--color-accent);
-  color: var(--color-text-primary);
+  color: #0c0c0c;
 }
 
-/* ── Dark theme overrides ── */
-html.dark {
-  --color-bg-primary: #0b0f1a;
-  --color-bg-secondary: #111827;
-  --color-bg-elevated: #1a2236;
-  --color-text-primary: #f9fafb;
-  --color-text-secondary: #d1d5db;
-  --color-text-muted: #6b7280;
-  --color-accent: #fca311;
-  --color-accent-hover: #fbbf24;
-  --color-accent-subtle: #451a03;
-  --color-navy: #93a8d1;
-  --color-border: #1f2937;
+/* ── Dark is the default (base @theme above). No html.dark override needed. ── */
+
+/* ── Light theme overrides ── */
+html.light {
+  --color-bg-primary: #faf8f4;
+  --color-bg-secondary: #f0ece4;
+  --color-bg-elevated: #ffffff;
+  --color-text-primary: #1a1710;
+  --color-text-secondary: #3d3828;
+  --color-text-muted: #8a8070;
+  --color-accent: #b8942e;
+  --color-accent-hover: #a07e1e;
+  --color-accent-subtle: #fdf6e3;
+  --color-navy: #3d3828;
+  --color-border: #e0d9cc;
 }
 
 /* Glass morphism - theme-aware */
 .glass {
-  background: oklch(from var(--color-bg-elevated) l c h / 0.6);
-  backdrop-filter: blur(16px) saturate(180%);
-  -webkit-backdrop-filter: blur(16px) saturate(180%);
-  border: 1px solid oklch(from var(--color-border) l c h / 0.5);
+  background: oklch(from var(--color-bg-elevated) l c h / 0.55);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid oklch(from var(--color-border) l c h / 0.4);
 }
 
-/* Gradient text utility -- navy → accent → navy */
+/* Gradient text utility -- gold shimmer */
 .text-gradient {
-  background: linear-gradient(135deg, var(--color-navy) 0%, var(--color-accent) 50%, var(--color-navy) 100%);
+  background: linear-gradient(135deg, var(--color-accent) 0%, #e8d5a0 40%, var(--color-accent) 70%, #f5e6b8 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -102,8 +102,8 @@ html.dark {
 /* Section divider */
 .section-divider {
   height: 1px;
-  background: linear-gradient(90deg, transparent 0%, var(--color-border) 20%, var(--color-accent) 50%, var(--color-border) 80%, transparent 100%);
-  opacity: 0.4;
+  background: linear-gradient(90deg, transparent 0%, var(--color-border) 15%, var(--color-accent) 50%, var(--color-border) 85%, transparent 100%);
+  opacity: 0.35;
 }
 
 /* Marquee */

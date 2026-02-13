@@ -54,6 +54,7 @@ export function Contact() {
 
             <a
               href={`mailto:${personal.email}`}
+              aria-label={`Send email to ${personal.name}`}
               className="group flex w-full items-center justify-center gap-3 rounded-xl border border-border bg-bg-elevated px-6 py-4 text-text-primary transition-all duration-300 hover:border-accent hover:text-accent hover:-translate-y-0.5 sm:w-auto"
             >
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">

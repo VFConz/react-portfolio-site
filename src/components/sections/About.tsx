@@ -1,35 +1,10 @@
 'use client';
 
 import Image from 'next/image';
-import { personal } from '@/data/personal';
+import { personal, skills, stats } from '@/data/personal';
 import { RevealOnScroll } from '@/components/animations/RevealOnScroll';
 import { ScrollParallax } from '@/components/animations/ScrollParallax';
 import { AnimatedCounter } from '@/components/ui/AnimatedCounter';
-
-const skills = [
-  'React',
-  'Next.js',
-  'TypeScript',
-  'Node.js',
-  'JavaScript',
-  'Java',
-  'Kotlin',
-  'C++',
-  'AWS',
-  'SQL',
-  'Git',
-  'Tailwind CSS',
-  'HTML/CSS',
-  'Auth0',
-  'REST APIs',
-];
-
-const stats = [
-  { label: 'Year Industry Experience', target: 1, suffix: '+' },
-  { label: 'Projects Completed', target: 6, suffix: '+' },
-  { label: 'Technologies', target: 15, suffix: '+' },
-  { label: 'Grade Average', target: 80, suffix: '%' },
-];
 
 export function About() {
   return (

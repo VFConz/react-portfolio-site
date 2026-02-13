@@ -62,15 +62,6 @@ export function Navigation() {
 
   return (
     <>
-      {/* Scroll progress indicator bar */}
-      <div className="fixed top-0 right-0 left-0 z-50 h-[2px] bg-bg-secondary/50">
-        <motion.div
-          className="h-full bg-accent"
-          style={{ width: `${scrollProgress}%` }}
-          transition={{ duration: 0.1 }}
-        />
-      </div>
-
       {/* Desktop navigation - fixed left sidebar */}
       <nav className="fixed top-0 left-0 z-40 hidden h-screen w-16 flex-col items-center justify-center gap-6 border-r border-border bg-bg-primary/80 backdrop-blur-sm lg:flex">
         {sections.map((section) => (
