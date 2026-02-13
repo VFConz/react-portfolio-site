@@ -13,6 +13,16 @@ const eslintConfig = defineConfig([
     "build/**",
     "next-env.d.ts",
   ]),
+  // Three.js / R3F components require buffer mutations and procedural generation
+  // (Math.random, geometry attribute writes, material property updates per frame)
+  // which are fundamentally incompatible with React Compiler purity rules.
+  {
+    files: ["src/components/three/**"],
+    rules: {
+      "react-hooks/purity": "off",
+      "react-hooks/immutability": "off",
+    },
+  },
 ]);
 
 export default eslintConfig;

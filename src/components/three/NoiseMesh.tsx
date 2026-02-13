@@ -140,7 +140,8 @@ float rippleEffect(vec2 p, float t) {
 
 /* ── Total displacement ── */
 float totalDisp(vec2 p, float t, vec2 mouse) {
-  float breathe = 0.85 + 0.15 * sin(t * 0.3);
+  /* Increased breathing amplitude: 22% swing (was 15%), slower frequency */
+  float breathe = 0.78 + 0.22 * sin(t * 0.25);
   return baseNoise(p, t) * breathe + magnetEffect(p, mouse) + rippleEffect(p, t);
 }
 
@@ -167,7 +168,7 @@ void main() {
 `;
 
 /* ═══════════════════════════════════════════════════════════════════
-   Fragment Shader — iridescent gold with cursor glow
+   Fragment Shader — iridescent gold with cursor glow + color shift
    ═══════════════════════════════════════════════════════════════════ */
 const fragmentShader = /* glsl */ `
 uniform float uTime;
@@ -187,6 +188,10 @@ void main() {
   vec3 cream     = vec3(0.941, 0.902, 0.827);   // #f0e6d3
   vec3 dark      = vec3(0.060, 0.050, 0.040);
 
+  /* ── Subtle time-based color shift — warm↔cool oscillation ── */
+  float colorShift = sin(uTime * 0.1) * 0.05;
+  vec3 deepGoldAnim = deepGold + vec3(colorShift, colorShift * 0.5, -colorShift);
+
   /* ── Vectors ── */
   vec3 n       = normalize(vNormal);
   vec3 viewDir = normalize(cameraPosition - vWorldPosition);
@@ -201,10 +206,10 @@ void main() {
   float spec1 = pow(max(dot(n, H1), 0.0), 80.0);
   float spec2 = pow(max(dot(n, H2), 0.0), 60.0);
 
-  /* ── Base color from elevation + diffuse ── */
+  /* ── Base color from elevation + diffuse (animated gold) ── */
   float elev = clamp(vElevation * 0.25 + 0.5, 0.0, 1.0);
-  vec3  color = mix(dark, deepGold * 0.5, elev);
-  color += deepGold * diff * 0.4;
+  vec3  color = mix(dark, deepGoldAnim * 0.5, elev);
+  color += deepGoldAnim * diff * 0.4;
 
   /* ── Fresnel iridescence ── */
   color = mix(color, lightGold, fresnel * 0.4);
@@ -214,15 +219,15 @@ void main() {
   color += cream     * spec1 * 0.6;
   color += lightGold * spec2 * 0.35;
 
-  /* ── Cursor glow ── */
+  /* ── Cursor glow (animated gold) ── */
   float glow = exp(-vCursorDist * vCursorDist * 0.03) * 0.6;
-  color += deepGold  * glow;
+  color += deepGoldAnim  * glow;
   color += lightGold * glow * fresnel * 0.5;
 
   /* ── Edge vignette (fade mesh borders to transparent) ── */
   float edgeFade = smoothstep(1.0, 0.35, max(abs(vUv.x - 0.5) * 2.0, abs(vUv.y - 0.5) * 2.0));
 
-  /* ── Final alpha ── */
+  /* ── Final alpha — uFadeIn now encapsulates entrance + scroll + transition ── */
   float alpha = (0.06 + elev * 0.2 + fresnel * 0.12 + glow * 0.35 + (spec1 + spec2) * 0.25)
                 * edgeFade * uFadeIn;
 
@@ -233,8 +238,14 @@ void main() {
 /* ═══════════════════════════════════════════════════════════════════
    React component
    ═══════════════════════════════════════════════════════════════════ */
-export function NoiseMesh() {
+interface NoiseMeshProps {
+  /** Controls visibility for theme cross-fade transitions */
+  visible?: boolean;
+}
+
+export function NoiseMesh({ visible = true }: NoiseMeshProps) {
   const materialRef = useRef<THREE.ShaderMaterial>(null);
+  const meshRef = useRef<THREE.Mesh>(null);
   const mouseTarget = useRef({ x: 0, y: 0 });
   const mouseSmooth = useRef({ x: 0, y: 0 });
   const clockRef = useRef(0);
@@ -242,9 +253,20 @@ export function NoiseMesh() {
   const rippleIndex = useRef(0);
   const prefersReduced = useRef(false);
 
-  const mobile = useMemo(isMobile, []);
-  const segX = mobile ? 64 : 150;
-  const segY = mobile ? 40 : 90;
+  /* Theme transition */
+  const transitionOpacity = useRef(visible ? 1 : 0);
+  const paused = useRef(!visible);
+
+  /* Scroll recession */
+  const scrollYRef = useRef(0);
+
+  /* Auto-ripple discoverability */
+  const autoRippleFired = useRef(false);
+
+  const mobile = useMemo(() => isMobile(), []);
+  /* Reduced geometry: 120×72 desktop (was 150×90) — ~40% fewer vertices, no visual difference */
+  const segX = mobile ? 64 : 120;
+  const segY = mobile ? 40 : 72;
 
   /* Ripple buffer (ring buffer of Vector4s) */
   const ripples = useMemo(
@@ -310,6 +332,11 @@ export function NoiseMesh() {
     [spawnRipple],
   );
 
+  /* ── Scroll tracking ── */
+  const handleScroll = useCallback(() => {
+    scrollYRef.current = Math.min(1, window.scrollY / window.innerHeight);
+  }, []);
+
   /* ── Event listeners ── */
   useEffect(() => {
     window.addEventListener('mousemove', handleMouseMove, { passive: true });
@@ -317,6 +344,7 @@ export function NoiseMesh() {
     window.addEventListener('touchmove', handleTouchMove, { passive: true });
     window.addEventListener('touchstart', handleTouchStart, { passive: true });
     window.addEventListener('touchend', handleTouchEnd);
+    window.addEventListener('scroll', handleScroll, { passive: true });
 
     const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
     prefersReduced.current = mq.matches;
@@ -331,41 +359,81 @@ export function NoiseMesh() {
       window.removeEventListener('touchmove', handleTouchMove);
       window.removeEventListener('touchstart', handleTouchStart);
       window.removeEventListener('touchend', handleTouchEnd);
+      window.removeEventListener('scroll', handleScroll);
       mq.removeEventListener('change', onMq);
     };
-  }, [handleMouseMove, handleClick, handleTouchMove, handleTouchStart, handleTouchEnd]);
+  }, [handleMouseMove, handleClick, handleTouchMove, handleTouchStart, handleTouchEnd, handleScroll]);
+
+  /* Resume rendering when becoming visible */
+  useEffect(() => {
+    if (visible) {
+      paused.current = false;
+    }
+  }, [visible]);
 
   /* ── Per-frame animation ── */
   useFrame((state, delta) => {
     if (!materialRef.current) return;
+
+    /* ── Theme transition opacity ── */
+    const targetVis = visible ? 1 : 0;
+    transitionOpacity.current += (targetVis - transitionOpacity.current) * 0.03;
+
+    /* Pause when fully hidden to save GPU */
+    if (transitionOpacity.current < 0.01 && !visible) {
+      paused.current = true;
+      return;
+    }
+    if (paused.current) return;
+
     const t = state.clock.elapsedTime;
     clockRef.current = t;
     const reduced = prefersReduced.current;
 
-    // Fade in over ~2 s
+    /* ── Fade in over ~2s ── */
     if (fadeRef.current < 1) {
       fadeRef.current = Math.min(1, fadeRef.current + delta * 0.5);
     }
 
-    // Smooth mouse (lower lerp = smoother trailing; even slower on mobile touch)
-    const lerpSpeed = reduced ? 0.01 : mobile ? 0.035 : 0.06;
+    /* ── Auto-ripple discoverability hint — fires once after fade-in completes ── */
+    if (!autoRippleFired.current && fadeRef.current >= 1 && !reduced) {
+      autoRippleFired.current = true;
+      const idx = rippleIndex.current % MAX_RIPPLES;
+      ripples[idx].set(0, 0, t, 1);
+      rippleIndex.current++;
+    }
+
+    /* ── Snappier mouse lerp (was 0.06/0.035, now 0.09/0.05) ── */
+    const lerpSpeed = reduced ? 0.01 : mobile ? 0.05 : 0.09;
     mouseSmooth.current.x += (mouseTarget.current.x - mouseSmooth.current.x) * lerpSpeed;
     mouseSmooth.current.y += (mouseTarget.current.y - mouseSmooth.current.y) * lerpSpeed;
 
-    // Update uniforms
+    /* ── Scroll-based recession + fade ── */
+    const sy = scrollYRef.current;
+    const scrollFade = Math.max(0, 1 - sy * 1.5);
+
+    /* Composite fade: entrance × scroll × theme transition */
+    const compositeFade = fadeRef.current * scrollFade * transitionOpacity.current;
+
+    /* ── Update uniforms ── */
     const u = materialRef.current.uniforms;
     u.uTime.value = t * (reduced ? 0.15 : 1);
     u.uMouse.value.set(mouseSmooth.current.x, mouseSmooth.current.y);
-    u.uFadeIn.value = fadeRef.current;
+    u.uFadeIn.value = compositeFade;
 
-    // Deactivate expired ripples
+    /* ── Mesh z-recession on scroll ── */
+    if (meshRef.current) {
+      meshRef.current.position.z = -1 - sy * 0.5;
+    }
+
+    /* ── Deactivate expired ripples ── */
     for (let i = 0; i < MAX_RIPPLES; i++) {
       if (ripples[i].w > 0.5 && t - ripples[i].z > 5) {
         ripples[i].w = 0;
       }
     }
 
-    // Subtle camera parallax — desktop only (no persistent cursor on mobile)
+    /* ── Subtle camera parallax — desktop only ── */
     if (!reduced && !mobile) {
       const cam = state.camera;
       cam.position.x += (mouseSmooth.current.x * 0.3 - cam.position.x) * 0.02;
@@ -375,7 +443,7 @@ export function NoiseMesh() {
   });
 
   return (
-    <mesh position={[0, 0, -1]} rotation={[-0.12, 0, 0]}>
+    <mesh ref={meshRef} position={[0, 0, -1]} rotation={[-0.12, 0, 0]}>
       <planeGeometry args={[22, 14, segX, segY]} />
       <shaderMaterial
         ref={materialRef}

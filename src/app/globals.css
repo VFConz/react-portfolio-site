@@ -124,13 +124,21 @@ html.light {
   animation-play-state: paused;
 }
 
-/* Scroll line animation for hero CTA */
-@keyframes scrollLine {
+/* Scroll pulse animation for hero CTA — sliding pill with fade */
+@keyframes scrollPulse {
   0% {
     transform: translateY(-100%);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 0.5;
   }
   100% {
-    transform: translateY(300%);
+    transform: translateY(700%);
+    opacity: 0;
   }
 }
 

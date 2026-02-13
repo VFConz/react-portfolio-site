@@ -15,6 +15,16 @@ export function HeroScene() {
 
   return (
     <div className="absolute inset-0 -z-10">
+      {/* Subtle radial gradient for light theme depth — shows through transparent canvas */}
+      <div
+        className="pointer-events-none absolute inset-0 transition-opacity duration-700"
+        style={{
+          opacity: theme === 'light' ? 1 : 0,
+          background:
+            'radial-gradient(ellipse at center, #faf8f4 0%, #f0ece4 50%, #e8e2d8 100%)',
+        }}
+      />
+
       <Canvas
         camera={{
           position: [0, 0, mobile ? 8 : 7],
@@ -29,7 +39,10 @@ export function HeroScene() {
           <ambientLight intensity={0.6} />
           <directionalLight position={[5, 5, 5]} intensity={0.4} color="#e8d5a0" />
 
-          {theme === 'dark' ? <NoiseMesh /> : <GeometricField />}
+          {/* Both scenes rendered simultaneously; visibility controlled via props
+              for smooth cross-fade during theme transitions (no blank canvas flash) */}
+          <NoiseMesh visible={theme === 'dark'} />
+          <GeometricField visible={theme === 'light'} />
         </Suspense>
       </Canvas>
     </div>
