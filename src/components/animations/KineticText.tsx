@@ -30,6 +30,10 @@ export function KineticText({
     if (prefersReducedMotion) {
       const chars = containerRef.current.querySelectorAll('.kinetic-char');
       gsap.set(chars, { y: 0, opacity: 1 });
+      // Remove overflow-hidden immediately since there's no animation
+      containerRef.current
+        .querySelectorAll('.char-wrapper')
+        .forEach((el) => el.classList.remove('overflow-hidden'));
       return;
     }
 
@@ -47,6 +51,16 @@ export function KineticText({
       ease: 'power3.out',
     });
 
+    // Remove overflow-hidden AFTER all staggered characters finish animating
+    // to prevent clipping of descender glyphs (g, j, p, q, y)
+    tl.call(() => {
+      if (containerRef.current) {
+        containerRef.current
+          .querySelectorAll('.char-wrapper')
+          .forEach((el) => el.classList.remove('overflow-hidden'));
+      }
+    });
+
     return () => {
       tl.kill();
     };
@@ -61,7 +75,7 @@ export function KineticText({
         {word.split('').map((char, charIndex) => (
           <span
             key={`${wordIndex}-${charIndex}`}
-            className="inline-block overflow-hidden"
+            className="char-wrapper inline-block overflow-hidden"
           >
             <span className="kinetic-char inline-block" aria-hidden="true">
               {char}

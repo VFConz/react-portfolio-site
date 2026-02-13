@@ -83,24 +83,6 @@ export const projects: ProjectItem[] = [
   },
   {
     id: 5,
-    title: 'School Web-Dev Portfolio',
-    subtitle: 'HTML, CSS, JS',
-    techStack: ['HTML', 'CSS', 'JavaScript'],
-    features: [
-      'Basic HTML CSS Projects',
-      'Fundamentals of HTML',
-      'Beginner CSS Styling',
-      'JS Functionality',
-    ],
-    description: 'Web-Development Portfolio from First Year',
-    details:
-      'This collection of Projects are too small to be put on this website individually, but are good proofs of my grades throughout my Web-Development Module at Queens. It contains HTML, CSS and JS implementations adhering to constraints placed by the Module Coursework Requirements.',
-    image: '/images/htmlcssjs.png',
-    href: 'https://github.com/VFConz/WebDesignPortfolio-Year1',
-    accentColor: '#6C757D',
-  },
-  {
-    id: 6,
     title: 'Minesweeper CLI Game',
     subtitle: 'Kotlin Game',
     techStack: ['Kotlin', 'CLI', 'Game Design'],

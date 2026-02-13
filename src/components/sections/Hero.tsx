@@ -74,17 +74,15 @@ export function Hero() {
         </div>
 
         {/* Scroll CTA */}
-        <div className="absolute bottom-10 left-1/2 -translate-x-1/2">
-          <Link
-            href="#about"
-            className="flex flex-col items-center gap-2 text-text-muted transition-colors hover:text-accent"
-          >
-            <span className="text-[10px] uppercase tracking-[0.3em]">Scroll</span>
-            <span className="relative h-12 w-[1px] overflow-hidden bg-border">
-              <span className="absolute top-0 left-0 h-4 w-full animate-[scrollLine_2s_ease-in-out_infinite] bg-accent" />
-            </span>
-          </Link>
-        </div>
+        <Link
+          href="#about"
+          className="mt-8 flex flex-col items-center gap-2 text-text-muted transition-colors hover:text-accent"
+        >
+          <span className="text-[10px] uppercase tracking-[0.3em]">Scroll</span>
+          <span className="relative h-12 w-[1px] overflow-hidden bg-border">
+            <span className="absolute top-0 left-0 h-4 w-full animate-[scrollLine_2s_ease-in-out_infinite] bg-accent" />
+          </span>
+        </Link>
       </div>
     </div>
   );
