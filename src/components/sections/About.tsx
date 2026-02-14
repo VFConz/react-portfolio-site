@@ -1,6 +1,5 @@
 'use client';
 
-import Image from 'next/image';
 import { personal, skills, stats } from '@/data/personal';
 import { RevealOnScroll } from '@/components/animations/RevealOnScroll';
 import { ScrollParallax } from '@/components/animations/ScrollParallax';
@@ -20,32 +19,16 @@ export function About() {
         </ScrollParallax>
       </RevealOnScroll>
 
-      <div className="grid gap-12 lg:grid-cols-2 lg:gap-16">
-        {/* Profile image */}
-        <RevealOnScroll direction="left">
-          <div className="flex items-center justify-center">
-            <div className="relative h-72 w-72 overflow-hidden rounded-2xl border border-border shadow-2xl shadow-accent/5 sm:h-80 sm:w-80">
-              <Image
-                src={personal.profileImage}
-                alt={personal.name}
-                fill
-                className="object-cover transition-transform duration-700 hover:scale-105"
-                sizes="(max-width: 640px) 288px, 320px"
-                priority
-              />
-            </div>
-          </div>
-        </RevealOnScroll>
-
-        {/* Bio text */}
-        <RevealOnScroll direction="right" delay={0.15}>
-          <div className="flex flex-col justify-center">
-            <p className="text-lg leading-relaxed text-text-secondary">
+      {/* Bio — single column, redesigned */}
+      <RevealOnScroll>
+        <div className="mx-auto max-w-3xl">
+          <div className="rounded-2xl border border-border bg-bg-secondary/50 px-8 py-10 shadow-lg shadow-accent/5 sm:px-12 sm:py-12">
+            <p className="text-base leading-[1.8] text-text-secondary sm:text-lg">
               {personal.bio}
             </p>
           </div>
-        </RevealOnScroll>
-      </div>
+        </div>
+      </RevealOnScroll>
 
       {/* Stats row with animated counters */}
       <RevealOnScroll delay={0.2}>
