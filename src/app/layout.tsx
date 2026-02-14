@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { Inter, Space_Grotesk } from 'next/font/google';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 import { SmoothScroll } from '@/components/SmoothScroll';
 import { ThemeProvider } from '@/components/ThemeProvider';
 import { ScrollProgress } from '@/components/ui/ScrollProgress';
@@ -51,12 +52,13 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark">
       <body className={`${inter.variable} ${spaceGrotesk.variable} font-sans antialiased`}>
-        <ThemeProvider>
-          <SmoothScroll>
-            <ScrollProgress />
-            {children}
-          </SmoothScroll>
-        </ThemeProvider>
+<ThemeProvider>
+            <SmoothScroll>
+              <ScrollProgress />
+              {children}
+            </SmoothScroll>
+            <SpeedInsights />
+          </ThemeProvider>
       </body>
     </html>
   );
