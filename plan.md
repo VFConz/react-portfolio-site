@@ -21,5 +21,6 @@ This plan should set in multiple phases and starts in RESEARCH phase:
 - TEST/DEBUG is ran by one agent. add test cases and debug the entire application. Interact with the entire page, make sure all things work as expected. Observe the webpage when debugging to ensure all animations and events trigger successfully. If the website is not performing and operating perfectly then repeat cycle otherwise continue to PRE-RELEASE.
 - PRE-RELEASE, one agent. create the plan for deployment using Vercel, adding CI/CD implementation to deploy the project securely, succesfully and smoothly.
 - RELEASE, one agent, using your guidance create a guide.md file with steps on setting up the project with Vercel to display my new portfolio publicly
+- CLEAN (recurring maintenance), one agent. Remove deprecated files (e.g. legacy source, CRA leftovers, redundant scripts) and audit static assets. See ./plans/clean-phase.md.
 
 If there is any issues that arise revisit this script at ./plan.md
